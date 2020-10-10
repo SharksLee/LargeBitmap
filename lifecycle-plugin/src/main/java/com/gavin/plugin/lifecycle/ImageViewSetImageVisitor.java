@@ -66,12 +66,6 @@ public class ImageViewSetImageVisitor extends MethodVisitor {
         mv.visitLineNumber(110, l3);
         mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
         mv.visitInsn(RETURN);
-//        Label l5 = new Label();
-//        mv.visitLabel(l5);
-//        mv.visitLocalVariable("e", "Ljava/lang/Exception;", null, l4, l3, 2);
-//        mv.visitLocalVariable("this", "Lcom/gavin/asmdemo/ImageViewDemo;", null, l0, l5, 0);
-//        mv.visitLocalVariable("drawable", "Landroid/graphics/drawable/Drawable;", null, l0, l5, 1);
-//        mv.visitMaxs(4, 3);
     }
 
     @Override
