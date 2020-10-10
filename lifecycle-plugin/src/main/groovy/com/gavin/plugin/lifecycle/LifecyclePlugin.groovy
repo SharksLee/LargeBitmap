@@ -95,6 +95,17 @@ class LifecyclePlugin extends Transform implements Plugin<Project> {
                             file.parentFile.absolutePath + File.separator + name)
                     fos.write(code)
                     fos.close()
+                }else if(checkImageViewClassFile(name)){
+                    println '----------- deal with "imageView class" file <' + name + '> -----------'
+                    ClassReader classReader = new ClassReader(file.bytes)
+                    ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
+                    ClassVisitor cv = new ImageViewClassVisitor(classWriter)
+                    classReader.accept(cv, EXPAND_FRAMES)
+                    byte[] code = classWriter.toByteArray()
+                    FileOutputStream fos = new FileOutputStream(
+                            file.parentFile.absolutePath + File.separator + name)
+                    fos.write(code)
+                    fos.close()
                 }
             }
         }
@@ -141,6 +152,15 @@ class LifecyclePlugin extends Transform implements Plugin<Project> {
                     classReader.accept(cv, EXPAND_FRAMES)
                     byte[] code = classWriter.toByteArray()
                     jarOutputStream.write(code)
+                }else if(checkImageViewClassFile(entryName)){
+                    println '----------- deal with "imageView class" file <' + entryName + '> -----------'
+                    jarOutputStream.putNextEntry(zipEntry)
+                    ClassReader classReader = new ClassReader(IOUtils.toByteArray(inputStream))
+                    ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
+                    ClassVisitor cv = new ImageViewClassVisitor(classWriter)
+                    classReader.accept(cv, EXPAND_FRAMES)
+                    byte[] code = classWriter.toByteArray()
+                    jarOutputStream.write(code)
                 } else {
                     jarOutputStream.putNextEntry(zipEntry)
                     jarOutputStream.write(IOUtils.toByteArray(inputStream))
@@ -167,6 +187,12 @@ class LifecyclePlugin extends Transform implements Plugin<Project> {
         return (name.endsWith(".class") && !name.startsWith("R\$")
                 && !"R.class".equals(name) && !"BuildConfig.class".equals(name)
                 && "android/support/v4/app/FragmentActivity.class".equals(name))
+    }
+    static boolean checkImageViewClassFile(String name) {
+        //只处理需要的class文件
+        return (name.endsWith(".class") && !name.startsWith("R\$")
+                && !"R.class".equals(name) && !"BuildConfig.class".equals(name)
+                && ("android/support/v7/widget/AppCompatImageView.class".equals(name)||"android/widget/ImageView.class".equals(name)))
     }
 
 }

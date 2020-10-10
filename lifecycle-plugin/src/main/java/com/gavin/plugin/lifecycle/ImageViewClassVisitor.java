@@ -29,15 +29,12 @@ public class ImageViewClassVisitor extends ClassVisitor implements Opcodes {
         //System.out.println("LifecycleClassVisitor : visitMethod : " + name);
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
         //匹配FragmentActivity
-        if ("android/support/v4/app/FragmentActivity".equals(this.mClassName)) {
-            if ("onCreate".equals(name) ) {
+//         && ("android.support.v7.widget.AppCompatImageView.class".equals(name)||"android.widget.ImageView.class".equals(name)))
+        if ("android/support/v7/widget/AppCompatImageView".equals(this.mClassName)||"android/widget/ImageView".equals(this.mClassName)) {
+            if ("setImageDrawable".equals(name) ) {
                 //处理onCreate
-                System.out.println("LifecycleClassVisitor : change method ----> " + name);
-                return new LifecycleOnCreateMethodVisitor(mv);
-            } else if ("onDestroy".equals(name)) {
-                //处理onDestroy
-                System.out.println("LifecycleClassVisitor : change method ----> " + name);
-                return new LifecycleOnDestroyMethodVisitor(mv);
+                System.out.println("ImageViewClassVisitor : setImageResource method ----> " + name);
+                return new ImageViewSetImageVisitor(mv);
             }
         }
         return mv;
