@@ -190,9 +190,12 @@ class LifecyclePlugin extends Transform implements Plugin<Project> {
     }
     static boolean checkImageViewClassFile(String name) {
         //只处理需要的class文件
+//        return (name.endsWith(".class") && !name.startsWith("R\$")
+//                && !"R.class".equals(name) && !"BuildConfig.class".equals(name)
+//                && ("ImageViewDemo.class".equals(name)))
         return (name.endsWith(".class") && !name.startsWith("R\$")
                 && !"R.class".equals(name) && !"BuildConfig.class".equals(name)
-                && ("android/support/v7/widget/AppCompatImageView.class".equals(name)||"android/widget/ImageView.class".equals(name)))
+                && ("android/support/v7/widget/AppCompatImageView.class".equals(name)))
     }
 
 }

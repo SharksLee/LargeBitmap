@@ -13,6 +13,8 @@ import android.util.Log;
  * @date: 2020/10/9
  */
 public class ImageViewDemo extends AppCompatImageView {
+    public static final String TAG = ImageViewDemo.class.getSimpleName();
+
     public ImageViewDemo(Context context) {
         super(context);
     }
@@ -27,11 +29,6 @@ public class ImageViewDemo extends AppCompatImageView {
 
     @Override
     public void setImageDrawable(@Nullable Drawable drawable) {
-        try {
-            Log.d("ImageView", "setImageDrawable: "+getResources().getResourceName(getId()));
-        }catch (Exception e){
-            e.getMessage();
-        }
-
+        super.setImageDrawable(drawable);
     }
 }

@@ -30,12 +30,10 @@ public class ImageViewClassVisitor extends ClassVisitor implements Opcodes {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
         //匹配FragmentActivity
 //         && ("android.support.v7.widget.AppCompatImageView.class".equals(name)||"android.widget.ImageView.class".equals(name)))
-        if ("android/support/v7/widget/AppCompatImageView".equals(this.mClassName)||"android/widget/ImageView".equals(this.mClassName)) {
-            if ("setImageDrawable".equals(name) ) {
-                //处理onCreate
-                System.out.println("ImageViewClassVisitor : setImageResource method ----> " + name);
-                return new ImageViewSetImageVisitor(mv);
-            }
+        if ("setImageDrawable".equals(name)) {
+            //处理onCreate
+            System.out.println("ImageViewClassVisitor : setImageResource method ----> " + name);
+            return new SetImageDrawableVisitor(mv);
         }
         return mv;
     }
